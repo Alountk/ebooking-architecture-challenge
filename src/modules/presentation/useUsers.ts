@@ -13,8 +13,6 @@ export default function useUsers({ filters }: { filters: SearchFilters }) {
   useEffect(() => {
     let ignore = false;
 
-    // SHAME I check this part but I no have enough time
-    // eslint-disable-next-line
     setLoading(true);
 
     repository.search(filters).then((result) => {
@@ -27,7 +25,9 @@ export default function useUsers({ filters }: { filters: SearchFilters }) {
     return () => {
       ignore = true;
     };
-  }, [filters, repository]);
+    // We stringify filters to avoid unnecessary calls due to object reference changes. In a real app, consider using a stable reference for filters or a deep comparison.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(filters), repository]);
 
   return { users, loading };
 }
