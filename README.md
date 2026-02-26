@@ -8,13 +8,13 @@ Este proyecto ha sido desarrollado siguiendo una arquitectura hexagonal, TDD y b
 - [x] **Listado de Usuarios**: Muestra nombre, email y ciudad desde la API.
 - [x] **Filtrado en Tiempo Real**: Input de texto para filtrar por nombre (implementado en Backend-for-Frontend logic).
 - [x] **Vista de Detalle**: Modal con información extendida (teléfono, website, compañía).
-- [ ] **Persistencia de Estado**: Mantener filtro al recargar (Pendiente).
+- [x] **Persistencia de Estado**: El filtro se sincroniza con la URL (`?q=...`) y se restaura al recargar.
 
 ### Requerimientos Técnicos
 - [x] **React 19+**: Hooks y Functional Components.
 - [x] **TypeScript Estricto**: Interfaces definidas en Dominio.
 - [x] **Arquitectura**: Hexagonal (Separación clara entre `domain`, `infrastructure` y `presentation`).
-- [x] **Gestión de Estado**: Context API + Custom Hooks (`useUsers`).
+- [x] **Gestión de Estado**: Context API + Custom Hooks (`useUsers` y `useUrlSync`).
 - [x] **Testing**: Vitest + React Testing Library (Unitario de Repositorio y Hook).
 
 ## 🚀 Cómo ejecutar el proyecto
@@ -44,10 +44,10 @@ El código está organizado modularmente bajo `src/modules/`:
 
 ## 🔮 Deuda Técnica / Mejoras Futuras
 
-- **Persistencia en URL**: Falta sincronizar el estado del filtro con `window.location` o React Router para cumplir el requerimiento de persistencia.
-- **Estilos**: Se usaron estilos en línea para velocidad. Mover a CSS Modules o Tailwind.
-- **Error Handling UI**: Mejorar el feedback visual cuando falla la API (actualmente solo loguea).
-- **Virtualización**: Para listas muy grandes de usuarios.
+- **Estilos**: Se usaron estilos en línea para velocidad y minimizar dependencias. Mover a CSS Modules, Tailwind o Styled Components para producción.
+- **Error Handling UI**: Mejorar el feedback visual cuando falla la API (actualmente solo loguea a consola).
+- **Virtualización**: Para listas muy grandes de usuarios, sería ideal implementar `react-window` o similar.
+- **Accesibilidad**: Mejorar aún más el manejo de foco en el modal (focus trap).
 
 ## Tecnologías Utilizadas
 
