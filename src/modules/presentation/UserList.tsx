@@ -1,34 +1,11 @@
-interface Geo {
-  lat: string;
-  lng: string;
+import { User } from '../domain/user';
+
+interface UserListProps {
+  users: User[];
+  loading: boolean;
 }
 
-interface Address {
-  street: string;
-  suite: string;
-  city: string;
-  zipcode: string;
-  geo: Geo;
-}
-
-interface Company {
-  name: string;
-  catchPhrase: string;
-  bs: string;
-}
-
-export interface User {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  address: Address;
-  phone: string;
-  website: string;
-  company: Company;
-}
-
-export default function UserList({ users, loading }: { users: User[]; loading: boolean }) {
+export default function UserList({ users, loading }: UserListProps) {
   if (loading) return <div>Loading users...</div>;
   return (
     <div>
