@@ -4,6 +4,13 @@ import type { IUserRepository } from '../domain/user.repository';
 export class UserRepository implements IUserRepository {
   private users: User[] = [];
 
+  private matches(value: string, filterValue?: string): boolean {
+    if (!filterValue) {
+      return true;
+    }
+    return value.toLowerCase().includes(filterValue.toLowerCase());
+  }
+
   async search(filters: SearchFilters): Promise<User[]> {
     const result = await fetch('https://jsonplaceholder.typicode.com/users');
     if (result.status !== 200) {
@@ -11,38 +18,15 @@ export class UserRepository implements IUserRepository {
     }
     const data = await result.json();
     this.users = data;
+
     return this.users.filter((user) => {
-      if (
-        filters.name !== undefined &&
-        !user.name.toLowerCase().includes(filters.name.toLowerCase())
-      ) {
-        return false;
-      }
-      if (
-        filters.email !== undefined &&
-        !user.email.toLowerCase().includes(filters.email.toLowerCase())
-      ) {
-        return false;
-      }
-      if (
-        filters.phone !== undefined &&
-        !user.phone.toLowerCase().includes(filters.phone.toLowerCase())
-      ) {
-        return false;
-      }
-      if (
-        filters.website !== undefined &&
-        !user.website.toLowerCase().includes(filters.website.toLowerCase())
-      ) {
-        return false;
-      }
-      if (
-        filters.company !== undefined &&
-        !user.company.name.toLowerCase().includes(filters.company.toLowerCase())
-      ) {
-        return false;
-      }
-      return true;
+      return (
+        this.matches(user.name, filters.name) &&
+        this.matches(user.email, filters.email) &&
+        this.matches(user.phone, filters.phone) &&
+        this.matches(user.website, filters.website) &&
+        this.matches(user.company.name, filters.company)
+      );
     });
   }
 }
