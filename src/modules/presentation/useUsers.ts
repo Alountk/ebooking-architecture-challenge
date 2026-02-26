@@ -6,7 +6,6 @@ import { SearchFilters, User } from '../domain/user';
 
 export default function useUsers({ filters }: { filters: SearchFilters }) {
   const { repository } = useUserContext();
-  console.log({ repository });
   const [users, setUsers] = useState<User[] | []>([]);
   const [loading, setLoading] = useState(true);
 

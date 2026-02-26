@@ -16,28 +16,28 @@ export default function UserDashboard() {
   const filters = useMemo(() => ({ name: deferredName }), [deferredName]);
 
   const { users, loading } = useUsers({ filters });
-  console.log({ users, loading });
   return (
     <>
       <input
         type='text'
         value={name}
         onChange={(e) => setName(e.target.value)}
-        placeholder='Search hotels...'
+        placeholder='Search users...'
         style={{
-          padding: '0.5rem',
+          position: 'sticky',
+          top: 0,
+          backgroundColor: '#efefef',
+          padding: '1rem',
+          zIndex: 10,
+          paddingTop: '1rem',
+          paddingBottom: '1rem',
           marginBottom: '1rem',
-          width: '100%',
-          maxWidth: '400px',
-          fontSize: '1rem',
+          borderBottom: '1px solid #eee',
         }}
       />
       <UserList users={users} loading={loading} onSelectUser={setSelectedUser} />
 
-      <UserDetail
-        user={selectedUser}
-        onClose={() => setSelectedUser(null)} // Conectamos el cierre
-      />
+      <UserDetail user={selectedUser} onClose={() => setSelectedUser(null)} />
     </>
   );
 }
