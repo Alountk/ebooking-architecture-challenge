@@ -1,33 +1,62 @@
 # Ebooking Architecture Challenge
 
-Este proyecto ha sido inicializado con una arquitectura moderna y mejores prácticas para el desarrollo con React.
+Este proyecto ha sido desarrollado siguiendo una arquitectura hexagonal, TDD y buenas prácticas de React moderno (Hooks, Context, Composition).
+
+## ✅ Estado del Challenge
+
+### Requerimientos Funcionales
+- [x] **Listado de Usuarios**: Muestra nombre, email y ciudad desde la API.
+- [x] **Filtrado en Tiempo Real**: Input de texto para filtrar por nombre (implementado en Backend-for-Frontend logic).
+- [x] **Vista de Detalle**: Modal con información extendida (teléfono, website, compañía).
+- [ ] **Persistencia de Estado**: Mantener filtro al recargar (Pendiente).
+
+### Requerimientos Técnicos
+- [x] **React 19+**: Hooks y Functional Components.
+- [x] **TypeScript Estricto**: Interfaces definidas en Dominio.
+- [x] **Arquitectura**: Hexagonal (Separación clara entre `domain`, `infrastructure` y `presentation`).
+- [x] **Gestión de Estado**: Context API + Custom Hooks (`useUsers`).
+- [x] **Testing**: Vitest + React Testing Library (Unitario de Repositorio y Hook).
+
+## 🚀 Cómo ejecutar el proyecto
+
+1. **Instalar dependencias:**
+   ```bash
+   pnpm install
+   ```
+
+2. **Levantar servidor de desarrollo:**
+   ```bash
+   pnpm dev
+   ```
+
+3. **Ejecutar tests:**
+   ```bash
+   pnpm test
+   ```
+
+## 🏗 Arquitectura del Proyecto
+
+El código está organizado modularmente bajo `src/modules/`:
+
+- **Domain (`/domain`)**: Interfaces y Contratos (`User`, `IUserRepository`). Puro TypeScript, sin dependencias de React.
+- **Infrastructure (`/infrastructure`)**: Implementación real (`UserRepository`) que consume la API.
+- **Presentation (`/presentation`)**: Componentes de UI (`UserList`, `UserCard`) y Lógica de Vista (`useUsers`).
+
+## 🔮 Deuda Técnica / Mejoras Futuras
+
+- **Persistencia en URL**: Falta sincronizar el estado del filtro con `window.location` o React Router para cumplir el requerimiento de persistencia.
+- **Estilos**: Se usaron estilos en línea para velocidad. Mover a CSS Modules o Tailwind.
+- **Error Handling UI**: Mejorar el feedback visual cuando falla la API (actualmente solo loguea).
+- **Virtualización**: Para listas muy grandes de usuarios.
 
 ## Tecnologías Utilizadas
 
-- **React 19**: La última versión de React.
-- **Vite**: Herramienta de construcción ultra rápida.
-- **TypeScript**: Para un desarrollo con tipado estático seguro.
-- **PNPM**: Gestor de paquetes eficiente.
+- **React 19**
+- **Vite**
+- **TypeScript**
+- **Vitest & Testing Library**
+- **ESLint + Prettier + Husky** (Calidad de código asegurada en cada commit)
 
-## Buenas Prácticas y Calidad de Código
-
-- **ESLint**: Configurado con plugins para React Hooks, Refresh, Accesibilidad (jsx-a11y) y Prettier.
-- **Prettier**: Formateo de código consistente.
-- **Husky & lint-staged**: Validaciones automáticas antes de cada commit.
-- **EditorConfig**: Consistencia entre diferentes editores.
-
-## Testing Stack
-
-- **Vitest**: Framework de testing moderno y rápido compatible con Vite.
-- **React Testing Library**: Para testear componentes de forma centrada en el usuario.
-- **jest-dom**: Matchers personalizados para assertions en el DOM.
-
-## Scripts Disponibles
-
-- `pnpm dev`: Inicia el servidor de desarrollo.
-- `pnpm build`: Compila el proyecto para producción.
-- `pnpm lint`: Ejecuta el linter en todo el proyecto.
-- `pnpm test`: Ejecuta los tests con Vitest.
 - `pnpm test:ui`: Abre la interfaz de usuario de Vitest.
 
 ## Estructura de Tests
