@@ -1,5 +1,7 @@
 import { useDeferredValue, useMemo, useState } from 'react';
 
+import { useUrlSync } from '@/hooks/useUrlSync';
+
 import { User } from '../domain/user';
 
 import UserDetail from './UserDetail';
@@ -7,7 +9,7 @@ import UserList from './UserList';
 import useUsers from './useUsers';
 
 export default function UserDashboard() {
-  const [name, setName] = useState('');
+  const [name, setName] = useUrlSync('q', '');
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   const deferredName = useDeferredValue(name);
