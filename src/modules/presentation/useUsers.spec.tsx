@@ -5,12 +5,14 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { UserProvider } from '@/context/UserContext';
 
 import useUsers from './useUsers';
-const mockSearch = vi.fn();
 
-vi.mock('@/modules/infrastructure/user.repository', () => {
+// Mock the UseCase instead of the Repository for cleaner hook testing
+const mockExecute = vi.fn();
+
+vi.mock('@/modules/application/search-users.use-case', () => {
   return {
-    UserRepository: class {
-      search = mockSearch;
+    SearchUsersUseCase: class {
+      execute = mockExecute;
     },
   };
 });
@@ -20,29 +22,38 @@ describe('useUsers Hook', () => {
     vi.clearAllMocks();
   });
 
-  it('should fetch users on mount and handle loading state', async () => {
-    // PREPARE DATA
-    const mockUsers = [{ id: 1, name: 'Leanne Graham Doe', email: 'Sincere@april.biz' }];
-    mockSearch.mockResolvedValue(mockUsers);
+  const wrapper = ({ children }: { children: ReactNode }) => (
+    <UserProvider>{children}</UserProvider>
+  );
 
-    // RENDER HOOK IJNTO PROVIDER
-    const wrapper = ({ children }: { children: ReactNode }) => (
-      <UserProvider>{children}</UserProvider>
-    );
+  it('should fetch users on mount and handle loading state', async () => {
+    const mockUsers = [{ id: 1, name: 'Leanne Graham', email: 'Sincere@april.biz' }];
+    mockExecute.mockResolvedValue(mockUsers);
 
     const { result } = renderHook(() => useUsers({ filters: {} }), { wrapper });
 
-    // VERIFY INITIAL STATE
     expect(result.current.loading).toBe(true);
     expect(result.current.users).toEqual([]);
 
-    // WAIT FOR EFFECT TO COMPLETE
     await vi.waitFor(() => {
       expect(result.current.loading).toBe(false);
     });
 
-    // VERIFY FINAL STATE
     expect(result.current.users).toEqual(mockUsers);
-    expect(mockSearch).toHaveBeenCalledWith({});
+    expect(mockExecute).toHaveBeenCalledWith({});
+  });
+
+  it('should handle errors correctly', async () => {
+    const errorMessage = 'Network error';
+    mockExecute.mockRejectedValue(new Error(errorMessage));
+
+    const { result } = renderHook(() => useUsers({ filters: {} }), { wrapper });
+
+    await vi.waitFor(() => {
+      expect(result.current.loading).toBe(false);
+    });
+
+    expect(result.current.error).toBe(errorMessage);
+    expect(result.current.users).toEqual([]);
   });
 });
