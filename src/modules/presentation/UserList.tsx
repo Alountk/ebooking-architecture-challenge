@@ -9,11 +9,18 @@ interface UserListProps {
 }
 
 export default function UserList({ users, loading, onSelectUser }: UserListProps) {
-  if (loading) return <div>Loading users...</div>;
+  if (loading && users.length === 0) {
+    return <div className='status-message'>Loading users...</div>;
+  }
+
+  if (!loading && users.length === 0) {
+    return <div className='status-message'>No users found matching your search.</div>;
+  }
+
   return (
-    <div>
+    <div className='user-grid'>
       {users.map((user) => (
-        <UserCard key={user.id} user={user} onSelect={() => onSelectUser(user)} />
+        <UserCard key={user.id} user={user} onSelect={onSelectUser} />
       ))}
     </div>
   );

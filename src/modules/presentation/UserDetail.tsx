@@ -1,7 +1,4 @@
-// SHAME: HUSKY and LINT V.v
-
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-
 import { User } from '../domain/user';
 
 interface UserDetailProps {
@@ -14,18 +11,7 @@ export default function UserDetail({ user, onClose }: UserDetailProps) {
 
   return (
     <div
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 1000,
-      }}
+      className='modal-overlay'
       onClick={onClose}
       onKeyDown={(e) => {
         if (e.key === 'Escape') onClose();
@@ -35,24 +21,12 @@ export default function UserDetail({ user, onClose }: UserDetailProps) {
       tabIndex={-1}
     >
       <div
-        style={{
-          backgroundColor: 'white',
-          padding: '2rem',
-          borderRadius: '8px',
-          maxWidth: '500px',
-          width: '90%',
-          position: 'relative',
-          color: '#333',
-        }}
-        onClick={(e) => e.stopPropagation()}
+        className='modal-content'
+        onClick={(e) => e.stopPropagation()} // Evita que el modal se cierre al hacer clic dentro
         onKeyDown={(e) => e.stopPropagation()}
         role='document'
       >
-        <button
-          onClick={onClose}
-          style={{ position: 'absolute', top: '10px', right: '10px', cursor: 'pointer' }}
-          aria-label='Cerrar detalle'
-        >
+        <button className='close-btn' onClick={onClose} aria-label='Cerrar detalle'>
           ✖
         </button>
 
@@ -60,23 +34,23 @@ export default function UserDetail({ user, onClose }: UserDetailProps) {
         <p>
           <strong>Username:</strong> {user.username}
         </p>
-        <hr />
+        <hr style={{ margin: '1.5rem 0', opacity: 0.1 }} />
 
-        <div style={{ marginTop: '1rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <p>
-            📞 <strong>Teléfono:</strong> {user.phone}
+            <strong>📞 Teléfono:</strong> {user.phone}
           </p>
           <p>
-            🌐 <strong>Website:</strong>{' '}
+            <strong>🌐 Website:</strong>{' '}
             <a href={`http://${user.website}`} target='_blank' rel='noreferrer'>
               {user.website}
             </a>
           </p>
           <p>
-            🏢 <strong>Compañía:</strong> {user.company.name}
+            <strong>🏢 Compañía:</strong> {user.company.name}
           </p>
-          <p>
-            <em>&quot;{user.company.catchPhrase}&quot;</em>
+          <p style={{ fontStyle: 'italic', opacity: 0.7 }}>
+            &quot;{user.company.catchPhrase}&quot;
           </p>
         </div>
       </div>

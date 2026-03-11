@@ -7,18 +7,22 @@ interface UserCardProps {
 
 export default function UserCard({ user, onSelect }: UserCardProps) {
   return (
-    <div
+    <button
+      className='user-card'
       onClick={() => onSelect(user)}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') onSelect(user);
-      }}
-      role='button'
-      tabIndex={0}
-      style={{ border: '1px solid #ccc', padding: '1rem', margin: '0.5rem', cursor: 'pointer' }}
+      type='button'
+      aria-label={`Ver detalles de ${user.name}`}
     >
       <h3>{user.name}</h3>
-      <p>📧 {user.email}</p>
-      <p>📍 {user.address.city}</p>
-    </div>
+      <p>
+        <span>📧</span> {user.email}
+      </p>
+      <p>
+        <span>📍</span> {user.address.city}
+      </p>
+      <p>
+        <span>🏢</span> {user.company.name}
+      </p>
+    </button>
   );
 }
