@@ -1,9 +1,9 @@
 import { createContext } from 'react';
 
-import { IUserRepository } from '@/modules/domain/user.repository';
+import { SearchUsersUseCase } from '@/modules/application/search-users.use-case';
 
 interface UserContextProps {
-  repository: IUserRepository;
+  searchUsersUseCase: SearchUsersUseCase;
 }
 
 export const UserContext = createContext<UserContextProps | null>(null);
